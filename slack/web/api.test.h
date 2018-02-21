@@ -21,7 +21,7 @@ class test :
 {
 public:
     //public interface
-    test(const test &other) = default;
+    test(const test &other);// = default;
     test(test &&other) = default;
     test(test &other)
             : test(const_cast<const test &>(other))

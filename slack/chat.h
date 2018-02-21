@@ -34,9 +34,8 @@ public:
     ::slack::chat::postMessage postMessage(CHANNEL &&channel, TEXT &&text, Os &&...os) const
     {
         return ::slack::chat::postMessage{delegate_->token(), std::forward<CHANNEL>(channel), std::forward<TEXT>(text),
-                                          SLACK_FWD(os)...};
+                                          std::forward<Os>(os)...};
     }
-
 
     template<class TS, class CHANNEL, class TEXT, typename ...Os>
     ::slack::chat::update update(TS &&ts, CHANNEL &&channel, TEXT &&text) const

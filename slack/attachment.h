@@ -50,14 +50,14 @@ private:
 class attachment
 {
 public:
-    attachment(const attachment &) = default;
-    attachment(attachment&&) = default;
+    attachment() = default;
 
+    attachment(const attachment &o)
+        : fallback_(o.fallback_), image_url_(o.image_url_)
+    { }
 
-    //http://stackoverflow.com/questions/13937873/how-can-i-prevent-a-variadic-constructor-from-being-preferred-to-the-copy-constr
-    //http://stackoverflow.com/questions/9287250/conflict-between-copy-constructor-and-forwarding-constructor
-    attachment(attachment &other)
-            : attachment{const_cast<const attachment &>(other)}
+    attachment(attachment &&o)
+        : fallback_(std::move(o.fallback_)), image_url_(std::move(o.image_url_))
     { }
 
 
@@ -66,6 +66,14 @@ public:
     attachment(Os &&...os)
     {
         slack::set_option<attachment>(*this, std::forward<Os>(os)...);
+    }
+
+    //http://stackoverflow.com/questions/13937873/how-can-i-prevent-a-variadic-constructor-from-being-preferred-to-the-copy-constr
+    //http://stackoverflow.com/questions/9287250/conflict-between-copy-constructor-and-forwarding-constructor
+    attachment(attachment &other)
+            : attachment{const_cast<const attachment &>(other)}
+    { 
+        
     }
 
 

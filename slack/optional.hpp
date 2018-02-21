@@ -101,8 +101,8 @@ namespace experimental{
 # elif defined TR2_OPTIONAL_DISABLE_EMULATION_OF_TYPE_TRAITS
     // leave it: the user doesn't want it
 # else
-	template <typename T>
-	using is_trivially_destructible = std::has_trivial_destructor<T>;
+	// template <typename T>
+	// using is_trivially_destructible = std::has_trivial_destructor<T>;
 # endif
 // END workaround for missing is_trivially_destructible
 

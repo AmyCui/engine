@@ -11,7 +11,7 @@ class EngineConan(ConanFile):
     options = {"build_engine_tests":    [True, False],
                "build_engine_coverage": [True, False],
                "build_engine_examples": [True, False]}
-    default_options = "build_engine_tests=False", "build_engine_coverage=False", "build_engine_examples=False", "cpr:use_system_curl=True"
+    default_options = "build_engine_tests=False", "build_engine_coverage=False", "build_engine_examples=False", "cpr:use_system_curl=False"
     generators = "cmake"
     exports = ["*"]
 
@@ -30,7 +30,7 @@ class EngineConan(ConanFile):
                 del self.require["luna"]
 
     def build(self):
-        cmake = CMake(self.settings)
+        cmake = CMake(self)
         build_engine_tests = "-DBUILD_ENGINE_TESTS=ON" if self.options.build_engine_tests else "-DBUILD_ENGINE_TESTS=OFF"
         build_engine_coverage = "-DBUILD_ENGINE_COVERAGE=ON" if self.options.build_engine_coverage else "-DBUILD_ENGINE_COVERAGE=OFF"
         build_engine_examples = "-DBUILD_ENGINE_EXAMPLES=ON" if self.options.build_engine_examples else "-DBUILD_ENGINE_EXAMPLES=OFF"

@@ -33,7 +33,7 @@ endif()
 
 ##### Engine
 
-include(conanbuildinfo.cmake)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 CONAN_BASIC_SETUP()
 
 include_directories(SYSTEM
@@ -45,7 +45,8 @@ include_directories(
         )
 
 set(ENGINE_FILES
-        slack/web_client.h
+        slack/slack.h
+        slack/slack.cpp
         slack/web_client.cpp
         slack/web_client.h
         slack/set_option.h
@@ -129,7 +130,11 @@ set(ENGINE_FILES
         slack/event/message_channel_join.h
         slack/web/channels.info.cpp slack/web/channels.info.h slack/safe_queue.h)
 
-add_library(engine STATIC ${ENGINE_FILES})
+add_library(engine SHARED ${ENGINE_FILES})
+
+set_target_properties(engine PROPERTIES LINKER_LANGUAGE CXX)
+
+target_include_directories(engine PRIVATE ${PROJECT_SOURCE_DIR})
 
 target_link_libraries(engine ${CONAN_LIBS})
 
