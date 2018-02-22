@@ -51,6 +51,7 @@ set(ENGINE_FILES
         slack/web_client.h
         slack/set_option.h
         slack/chat.h
+        slack/files.h
         slack/users.h
         slack/web/api.test.cpp
         slack/web/api.test.h
@@ -62,6 +63,8 @@ set(ENGINE_FILES
         slack/web/chat.delete.h
         slack/web/chat.update.cpp
         slack/web/chat.update.h
+        slack/web/files.upload.cpp
+        slack/web/files.upload.h
         slack/web/rtm.start.cpp
         slack/web/rtm.start.h
         slack/web/auth.test.cpp

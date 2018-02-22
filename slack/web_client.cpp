@@ -17,7 +17,8 @@ web_client::web_client() : token_{""},
                  chat{this},
                  oauth{this},
                  users{this},
-                 rtm{this}
+                 rtm{this},
+                 files{this}
 {}
 
 web_client::web_client(const std::string &token) : token_{token},
@@ -27,7 +28,8 @@ web_client::web_client(const std::string &token) : token_{token},
                                          chat{this},
                                          oauth{this},
                                          users{this},
-                                         rtm{this}
+                                         rtm{this},
+                                         files{ this }
 {}
 
 web_client::web_client(std::string &&token) : token_{std::move(token)},
@@ -37,7 +39,8 @@ web_client::web_client(std::string &&token) : token_{std::move(token)},
                                     chat{this},
                                     oauth{this},
                                     users{this},
-                                    rtm{this}
+                                    rtm{this},
+                                    files{ this }
 {}
 
 void web_client::set_uri(const std::string &uri)

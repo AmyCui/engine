@@ -7,6 +7,7 @@
 #include "private.h"
 #include "web_client.h"
 #include <cpr/cpr.h>
+#include <filesystem>
 
 namespace slack_private
 {
@@ -59,6 +60,34 @@ Json::Value get(slack::base::response *obj, const std::string &endpoint, const s
     {
         //TODO do something!
         obj->error_message = std::string{std::to_string(response.status_code)};
+        return result_ob;
+    }
+
+    return parse(obj, response.text);
+}
+
+Json::Value post(slack::base::response *obj, const std::string &endpoint, const slack::http::params &params, const std::string &filepath)
+{
+    Json::Value result_ob;
+    // use multipart/form-data
+    cpr::Multipart mp{};
+    // add a File part if filepath exists
+    if (!filepath.empty())
+    {
+        // make sure the path is the correct format
+        std::string path_formatted = std::experimental::filesystem::path(filepath).string();
+        mp.parts.push_back(cpr::Part{ "file", cpr::File{ path_formatted } });
+    }
+    for (auto &kv : params)
+    {
+        mp.parts.push_back(cpr::Part{ kv.first, kv.second });
+    }
+
+    auto response = cpr::Post(cpr::Url{ slack::web_client::get_uri() + endpoint }, mp);
+
+    if (response.status_code != 200)
+    {
+        obj->error_message = std::string{ std::to_string(response.status_code) };
         return result_ob;
     }
 

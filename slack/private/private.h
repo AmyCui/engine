@@ -48,6 +48,11 @@ Json::Value get(slack::base::response *obj,
                 const slack::http::params &params,
                 bool auth = true);
 
+Json::Value post(slack::base::response *obj,
+                const std::string &endpoint,
+                const slack::http::params &params,
+                const std::string &filepath);
+
 struct json_impl
 {
     json_impl(const Json::Value &json) : json{json}

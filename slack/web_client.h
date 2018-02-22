@@ -13,6 +13,7 @@
 #include <slack/auth.h>
 #include <slack/channels.h>
 #include <slack/chat.h>
+#include <slack/files.h>
 #include <slack/oauth.h>
 #include <slack/rtm.h>
 #include <slack/users.h>
@@ -36,6 +37,7 @@ public:
     const ::slack::containers::auth auth;
     const ::slack::containers::channels channels;
     const ::slack::containers::chat chat;
+    const ::slack::containers::files files;
     const ::slack::containers::oauth oauth;
     const ::slack::containers::users users;
     const ::slack::containers::rtm rtm;
