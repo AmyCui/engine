@@ -19,8 +19,14 @@ namespace slack
      slack::web_client web_client{token_str};
 	 auto response = web_client.chat.postMessage(channel_str, message_str);
      // response message
-     if (!response.message != NULL && !response.message->text.empty())
-         return (response.message->text).c_str();
+     if (!response.message->text.empty())
+     {
+         std::string message_str = (response.message->text);
+         const std::string::size_type size = message_str.size();
+         char *buffer = new char[size + 1];   //we need extra char for NUL
+         memcpy(buffer, message_str.c_str(), size + 1);
+         return buffer;
+     }
      else
          return "";
   }
@@ -40,8 +46,14 @@ namespace slack
     slack::web_client web_client{token_str};
     auto response = web_client.chat.postMessage(channel_str, message_str, attachs);
     //response message
-    if (!response.message != NULL && !response.message->text.empty())
-        return (response.message->text).c_str();
+    if (!response.message->text.empty())
+    {
+        std::string message_str = (response.message->text);
+        const std::string::size_type size = message_str.size();
+        char *buffer = new char[size + 1];   //we need extra char for NUL
+        memcpy(buffer, message_str.c_str(), size + 1);
+        return buffer;
+    }
     else
         return "";
   }
@@ -58,8 +70,14 @@ namespace slack
       slack::web_client web_client{ token_str };
       auto response = web_client.files.upload(channel_str, filepath_str, comment_para);
       //response messsage
-      if (!response.message != NULL && !response.message->text.empty())
-          return (response.message->text).c_str();
+      if (!response.message->text.empty())
+      {
+          std::string message_str = (response.message->text);
+          const std::string::size_type size = message_str.size();
+          char *buffer = new char[size + 1];   //we need extra char for NUL
+          memcpy(buffer, message_str.c_str(), size + 1);
+          return buffer;
+      }
       else
           return "";
   }

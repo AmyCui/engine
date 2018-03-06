@@ -31,15 +31,32 @@ namespace slack { namespace files
         params.emplace("title", *title_);
       }
 
-      // TODO: needs to change to post
       auto result_ob = slack_private::post(this, "files.upload", params, filepath_);
-      if(this->success())
+      if (this->success())
       {
-          if (result_ob["channel"].isString()) channel = slack::channel_id{result_ob["channel"].asString()};
-          if (result_ob["ts"].isString()) ts = slack::ts{result_ob["ts"].asString()};
-          if (result_ob["message"].isObject()) message = {result_ob["message"]};
-      }
+          if (result_ob["channel"].isString()) channel = slack::channel_id{ result_ob["channel"].asString() };
+          if (result_ob["ts"].isString()) ts = slack::ts{ result_ob["ts"].asString() };
+          
+        message = slack::message{};
+        message->text = "ok";
+        if (result_ob["channel"].isString())
+            message->channel = slack::channel_id{ result_ob["channel"].asString() };
+        if (result_ob["ts"].isString())
+            message->ts = slack::ts{ result_ob["ts"].asString() };
 
+      }
+      else
+      {
+          if (result_ob["error"].isString())
+          {
+              message = slack::message{};
+              message->text = result_ob["error"].asString();
+              if (result_ob["channel"].isString())
+                  message->channel = slack::channel_id{ result_ob["channel"].asString() };
+              if (result_ob["ts"].isString()) 
+                  message->ts = slack::ts{ result_ob["ts"].asString() };
+          }
+      }
     }
   }
 
