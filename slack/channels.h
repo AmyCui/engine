@@ -13,6 +13,7 @@
 #include <slack/web/channels.rename.h>
 #include <slack/web/channels.list.h>
 #include <slack/web/channels.info.h>
+#include <slack/web/channels.history.h>
 #include <slack/base/slack_delegate.h>
 
 namespace slack
@@ -69,6 +70,18 @@ public:
     ::slack::channels::info info(CHANNEL &&channel) const
     {
         return ::slack::channels::info{delegate_->token(), std::forward<CHANNEL>(channel)};
+    }
+
+    template<class CHANNEL>
+    ::slack::channels::history history(CHANNEL &&channel) const
+    {
+        return ::slack::channels::history{ delegate_->token(), std::forward<CHANNEL>(channel) };
+    }
+
+    template<class CHANNEL, typename ...Os>
+    ::slack::channels::history history(CHANNEL &&channel, Os &&...os) const
+    {
+        return ::slack::channels::history{ delegate_->token(), std::forward<CHANNEL>(channel), std::forward<Os>(os)... };
     }
 
 

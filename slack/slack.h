@@ -10,6 +10,7 @@
 #endif
 
 #include <string>
+#include <vector>
 
 namespace slack
 {
@@ -21,6 +22,14 @@ namespace slack
     static ENGINE_API const char* PostImageMessage(const unsigned char* token, const unsigned char* channel,const unsigned char* message, const unsigned char* image_url);
 
     static ENGINE_API const char* functions::UploadFile(const unsigned char* token, const unsigned char* channel, const unsigned char* comment, const unsigned char* filepath);
+
+    struct slack_message {
+        char* user;
+        char* text;
+        char* ts;
+    };
+
+    ENGINE_API slack_message functions::GetChannelMessages(const unsigned char* token, const unsigned char* channel, const unsigned char* oldestTs, const unsigned char* msCount);
   };
 
 }

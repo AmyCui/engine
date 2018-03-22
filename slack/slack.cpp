@@ -81,4 +81,49 @@ namespace slack
       else
           return "";
   }
+
+  functions::slack_message functions::GetChannelMessages(const unsigned char* token, const unsigned char* channel, const unsigned char* oldestTs, const unsigned char* msCount)
+  {
+      const char* token_str = reinterpret_cast<const char *>(token);
+      const char* channel_str = reinterpret_cast<const char *>(channel);
+      const char* oldestTs_str = reinterpret_cast<const char *>(oldestTs);
+      const char* msCount_str = reinterpret_cast<const char *>(msCount);
+
+      const slack::channels::history::parameter::count count_para(msCount_str);
+      const slack::channels::history::parameter::oldest oldest_para(oldestTs_str);
+
+      slack::web_client web_client{ token_str };
+      auto response = web_client.channels.history(channel_str, count_para, oldest_para);
+
+      functions::slack_message result = functions::slack_message{};
+      //TODO: only support returning one message for now
+      if (response.messages.size() > 0)
+      {
+              auto ms = response.messages[0];
+
+              std::string usr_str = (ms.user);
+              const std::string::size_type usr_size = usr_str.size();
+              char *usr_buffer = new char[usr_size + 1];   //we need extra char for NUL
+              memcpy(usr_buffer, usr_str.c_str(), usr_size + 1);
+              result.user = usr_buffer;
+
+              std::string text_str = (ms.text);
+              const std::string::size_type text_size = text_str.size();
+              char *text_buffer = new char[text_size + 1];   //we need extra char for NUL
+              memcpy(text_buffer, text_str.c_str(), text_size + 1);
+              result.text = text_buffer;
+
+              std::string ts_str = (ms.ts);
+              const std::string::size_type ts_size = ts_str.size();
+              char *ts_buffer = new char[ts_size + 1];   //we need extra char for NUL
+              memcpy(ts_buffer, ts_str.c_str(), ts_size + 1);
+              result.ts = ts_buffer;
+
+      //    }
+      }
+
+      return result;
+
+
+  }
 }

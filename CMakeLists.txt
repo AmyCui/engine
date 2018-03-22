@@ -57,6 +57,8 @@ set(ENGINE_FILES
         slack/web/api.test.h
         slack/web/channels.archive.cpp
         slack/web/channels.archive.h
+        slack/web/channels.history.h
+        slack/web/channels.history.cpp
         slack/web/channels.list.cpp
         slack/web/channels.list.h
         slack/web/chat.delete.cpp
