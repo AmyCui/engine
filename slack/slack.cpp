@@ -119,11 +119,71 @@ namespace slack
               memcpy(ts_buffer, ts_str.c_str(), ts_size + 1);
               result.ts = ts_buffer;
 
-      //    }
       }
 
       return result;
 
-
   }
+
+
+  functions::slack_message* functions::SearchMesages(const unsigned char* token, const unsigned char* query, const unsigned char* count, const unsigned char* page)
+  {
+      const char* token_str = reinterpret_cast<const char *>(token);
+      const char* query_str = reinterpret_cast<const char *>(query);
+      const char* count_str = reinterpret_cast<const char *>(count);
+      const char* page_str = reinterpret_cast<const char *>(page);
+
+      const slack::search::messages::parameter::count count_para(count_str);
+      const slack::search::messages::parameter::page page_para(page_str);
+      
+      slack::web_client web_client{ token_str };
+      auto response = web_client.search.messages(query_str, count_para, page_para);
+
+      slack_message* resultMessage = nullptr;
+      slack_message* iter = nullptr;
+      if (response.matches.size() > 0)
+      {
+          for (int i = 0; i < response.matches.size(); i++)
+          {
+              auto ms = response.matches[i];
+              functions::slack_message *result = new functions::slack_message{};
+
+              std::string usr_str = (ms.user);
+              const std::string::size_type usr_size = usr_str.size();
+              char *usr_buffer = new char[usr_size + 1];   //we need extra char for NUL
+              memcpy(usr_buffer, usr_str.c_str(), usr_size + 1);
+              result->user = usr_buffer;
+
+              std::string text_str = (ms.text);
+              const std::string::size_type text_size = text_str.size();
+              char *text_buffer = new char[text_size + 1];   //we need extra char for NUL
+              memcpy(text_buffer, text_str.c_str(), text_size + 1);
+              result->text = text_buffer;
+
+              std::string ts_str = (ms.ts);
+              const std::string::size_type ts_size = ts_str.size();
+              char *ts_buffer = new char[ts_size + 1];   //we need extra char for NUL
+              memcpy(ts_buffer, ts_str.c_str(), ts_size + 1);
+              result->ts = ts_buffer;
+
+              result->Next = nullptr;
+
+              if (resultMessage == nullptr)
+              {
+                  resultMessage = new functions::slack_message{};
+                  resultMessage = result;
+                  iter = new functions::slack_message{};
+                  iter = resultMessage;
+              }
+              else
+              {
+                  iter->Next = new functions::slack_message{};
+                  iter->Next = result;
+                  iter = iter->Next;
+              }
+          }
+      }
+      return resultMessage;
+  }
+
 }

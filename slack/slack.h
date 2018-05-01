@@ -27,9 +27,13 @@ namespace slack
         char* user;
         char* text;
         char* ts;
+        slack_message* Next;
     };
 
     ENGINE_API slack_message functions::GetChannelMessages(const unsigned char* token, const unsigned char* channel, const unsigned char* oldestTs, const unsigned char* msCount);
+    
+    ENGINE_API slack_message* functions::SearchMesages(const unsigned char* token, const unsigned char* query, const unsigned char* count, const unsigned char* page);
+
   };
 
 }

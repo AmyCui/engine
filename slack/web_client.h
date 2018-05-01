@@ -17,6 +17,7 @@
 #include <slack/oauth.h>
 #include <slack/rtm.h>
 #include <slack/users.h>
+#include <slack/search.h>
 
 namespace slack
 {
@@ -41,6 +42,7 @@ public:
     const ::slack::containers::oauth oauth;
     const ::slack::containers::users users;
     const ::slack::containers::rtm rtm;
+    const ::slack::containers::search search;
 private:
     access_token token_;
     static std::string uri_;

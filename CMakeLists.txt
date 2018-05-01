@@ -53,6 +53,7 @@ set(ENGINE_FILES
         slack/chat.h
         slack/files.h
         slack/users.h
+        slack/search.h
         slack/web/api.test.cpp
         slack/web/api.test.h
         slack/web/channels.archive.cpp
@@ -81,6 +82,8 @@ set(ENGINE_FILES
         slack/web/oauth.access.h
         slack/web/users.info.cpp
         slack/web/users.info.h
+        slack/web/search.messages.h
+        slack/web/search.messages.cpp
         slack/types.h
         slack/types.cpp
         slack/fwd.h
