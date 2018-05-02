@@ -7,6 +7,7 @@
 #include <slack/types.h>
 #include <slack/rtm_event_client.h>
 #include <slack/http_event_client.h>
+#include <slack/users.h>
 
 namespace slack
 {
@@ -186,4 +187,19 @@ namespace slack
       return resultMessage;
   }
 
+  const char* functions::GetUserDisplayName(const unsigned char* token, const unsigned char* userid)
+  {
+      const char* token_str = reinterpret_cast<const char *>(token);
+      const char* userid_str = reinterpret_cast<const char *>(userid);
+
+      slack::web_client web_client{ token_str };
+      auto response = web_client.users.info(userid_str);
+
+      std::string username_str = response.user.name;
+      const std::string::size_type username_size = username_str.size();
+      char *username_buffer = new char[username_size + 1];   //we need extra char for NUL
+      memcpy(username_buffer, username_str.c_str(), username_size + 1);
+
+      return username_buffer;
+  }
 }

@@ -34,6 +34,7 @@ namespace slack
     
     ENGINE_API slack_message* functions::SearchMesages(const unsigned char* token, const unsigned char* query, const unsigned char* count, const unsigned char* page);
 
+    ENGINE_API const char* GetUserDisplayName(const unsigned char* token, const unsigned char* userid);
   };
 
 }
